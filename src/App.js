@@ -127,7 +127,7 @@ function App() {
         </ul>
       </div>
 
-
+{/* 
 <div className="clusters-container">
         {clusters.length > 0 && clusters.map((cluster, index) => (
           <div key={index} className="cluster">
@@ -145,8 +145,25 @@ function App() {
             <p>Total Distance: {cluster.totalDistance.toFixed(2)} km</p>
           </div>
         ))}
+      </div> */}
+<div className="clusters-container">
+        {clusters.length > 0 && (
+          clusters.map((cluster, index) => (
+            <div key={index} className="cluster">
+              <h2>Day {index + 1}</h2>
+              <ul>
+                {cluster.places.map((place, idx) => (
+                  <li key={idx}>
+                    <strong>{place.name}</strong> - Distance: {place.distance} km<br />
+                    Leave Time: {place.leaveTime}, Arrive Time: {place.arriveTime}
+                  </li>
+                ))}
+                <p>Total Distance: {cluster.totalDistance} km</p>
+              </ul>
+            </div>
+          ))
+        )}
       </div>
-
 
       <div className="maps">
         <Maps selectPosition={selectPosition} loca={loca}  />
