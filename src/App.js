@@ -3,6 +3,7 @@ import clusterPlaces from './cluster';
 import './App.css';
 import Maps from './Maps';
 import SearchBox from './SearchBox';
+import { haversine } from './haversine';
 
 const DistanceMatrix = [
   [0, 1, 4, 14, 21, 4, 10, 17],
@@ -31,6 +32,7 @@ function App() {
   const [selectPosition,setSelectPosition]= useState(null);
   const [loca, setLoca] = useState([]);
   console.log(loca);
+  
 
   const handleNumDaysChange = (event) => {
     setNumDays(parseInt(event.target.value));
@@ -42,13 +44,25 @@ function App() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const clustersResult = clusterPlaces(DistanceMatrix, numDays, maxDistancePerDay);
+    if (loca.length === 0) {
+      console.error("No locations selected");
+      return;
+    }
+    const distanceMatrix = loca.map((place1, index1) =>
+      loca.map((place2, index2) => index1 === index2 ? 0 : haversine(place1.lat, place1.lon, place2.lat, place2.lon))
+    );
+    console.log(distanceMatrix);
+    const clustersResult = clusterPlaces(distanceMatrix, numDays, maxDistancePerDay,loca);
     setClusters(clustersResult);
   };
-
   const addPlaceToLoca = (place) => {
-    setLoca([...loca, place]);
+    setLoca([...loca, { name: place.display_name, lat: place.lat, lon: place.lon }]);
   };
+
+  const removePlaceFromLoca = (index) => {
+    setLoca(loca.filter((_, i) => i !== index));
+  };
+
 
   return (
     <div className="App">
@@ -85,23 +99,57 @@ function App() {
         <button type="submit">Plan Itinerary</button>
       </form>
 
-      <div className="clusters-container">
+      {/* <div className="clusters-container">
         {clusters.length > 0 && (
           clusters.map((cluster, index) => (
             <div key={index} className="cluster">
               <h2>Cluster {index + 1}</h2>
               <ul>
                 {cluster.map(placeIndex => (
-                  <li key={placeIndex}>{locations[placeIndex]}</li>
+                  // <li key={placeIndex}>{locations[placeIndex]}</li>
+                  <li key={placeIndex}>{loca[placeIndex].name}</li>
                 ))}
               </ul>
             </div>
           ))
         )}
+      </div> */}
+
+<div className="loca-list">
+        <h2>Selected Places</h2>
+        <ul>
+          {loca.map((place, index) => (
+            <li key={index}>
+              {place.name}
+              <button onClick={() => removePlaceFromLoca(index)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
 
+
+<div className="clusters-container">
+        {clusters.length > 0 && clusters.map((cluster, index) => (
+          <div key={index} className="cluster">
+            <h2>Day {index + 1}</h2>
+            <ul>
+              {cluster.places.map((place, placeIndex) => (
+                <li key={placeIndex}>
+                  <div>{place.name}</div>
+                  <div>Leave: {place.leaveTime}</div>
+                  <div>Arrive: {place.arriveTime}</div>
+                  <div>Distance: {place.distance.toFixed(2)} km</div>
+                </li>
+              ))}
+            </ul>
+            <p>Total Distance: {cluster.totalDistance.toFixed(2)} km</p>
+          </div>
+        ))}
+      </div>
+
+
       <div className="maps">
-        <Maps selectPosition={selectPosition} />
+        <Maps selectPosition={selectPosition} loca={loca}  />
       </div>
     </div>
   );

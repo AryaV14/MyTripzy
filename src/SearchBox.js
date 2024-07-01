@@ -67,7 +67,7 @@ export default function SearchBox(props) {
                     <div key ={item?.place_id}>
                         <ListItem button onClick={() => {
                             setSelectPosition(item);
-                            addPlaceToLoca(item.display_name);
+                            addPlaceToLoca({ display_name: item.display_name, lat: item.lat, lon: item.lon });
                         }}>
                             <ListItemIcon>
                                 <img 
