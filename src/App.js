@@ -1,23 +1,108 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import clusterPlaces from './cluster';
 import './App.css';
+import Maps from './Maps';
+import SearchBox from './SearchBox';
+
+const DistanceMatrix = [
+  [0, 1, 4, 14, 21, 4, 10, 17],
+  [1, 0, 4, 14, 21, 4, 10, 17],
+  [4, 4, 0, 10, 21, 2, 7, 13],
+  [14, 14, 10, 0, 27, 10, 10, 8],
+  [21, 21, 21, 27, 0, 21, 20, 26],
+  [4, 4, 2, 10, 21, 0, 6, 13],
+  [10, 10, 7, 10, 20, 6, 0, 8],
+  [17, 17, 13, 8, 26, 13, 8, 0]
+];
+
+const locations = [
+  'Fort Kochi', 'Santa Cruz Basilica & Kerala Kathakali Centre',
+  'Marine Drive & Broadway MetharBazar', 'Hill Palace Museum',
+  'Cherai Beach', 'Mangalavanam Bird Sanctuary', 'Lulumall Kochi',
+  'Wonderla Amusement Park'
+];
+
+
 
 function App() {
+  const [numDays, setNumDays] = useState(4);
+  const [maxDistancePerDay, setMaxDistancePerDay] = useState(20);
+  const [clusters, setClusters] = useState([]);
+  const [selectPosition,setSelectPosition]= useState(null);
+  const [loca, setLoca] = useState([]);
+  console.log(loca);
+
+  const handleNumDaysChange = (event) => {
+    setNumDays(parseInt(event.target.value));
+  };
+
+  const handleMaxDistanceChange = (event) => {
+    setMaxDistancePerDay(parseInt(event.target.value));
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const clustersResult = clusterPlaces(DistanceMatrix, numDays, maxDistancePerDay);
+    setClusters(clustersResult);
+  };
+
+  const addPlaceToLoca = (place) => {
+    setLoca([...loca, place]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Travel Itinerary Planner</h1>
+      <div className="places">
+        <SearchBox selectPosition={selectPosition} setSelectPosition={setSelectPosition} addPlaceToLoca={addPlaceToLoca} loca={loca}/>
+      </div>
+      <form onSubmit={handleFormSubmit}>
+        <label htmlFor="numDays">Number of Days:</label>
+        <input
+          type="number"
+          id="numDays"
+          name="numDays"
+          value={numDays}
+          onChange={handleNumDaysChange}
+          min="1"
+          max="7"
+          required
+        />
+
+        <label htmlFor="maxDistancePerDay">Max Distance per Day (km):</label>
+        <input
+          type="number"
+          id="maxDistancePerDay"
+          name="maxDistancePerDay"
+          value={maxDistancePerDay}
+          onChange={handleMaxDistanceChange}
+          min="1"
+          required
+        />
+
+        
+
+        <button type="submit">Plan Itinerary</button>
+      </form>
+
+      <div className="clusters-container">
+        {clusters.length > 0 && (
+          clusters.map((cluster, index) => (
+            <div key={index} className="cluster">
+              <h2>Cluster {index + 1}</h2>
+              <ul>
+                {cluster.map(placeIndex => (
+                  <li key={placeIndex}>{locations[placeIndex]}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="maps">
+        <Maps selectPosition={selectPosition} />
+      </div>
     </div>
   );
 }
