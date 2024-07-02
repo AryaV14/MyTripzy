@@ -5,4 +5,4 @@
 - Leafletjs
 - Material UI
 - Nominatim API
-- OpenStreetMAp
+- OpenStreetMap
