@@ -45,6 +45,7 @@
 }
 
 .navbar {
+    overflow: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -64,9 +65,9 @@
     padding: 0;
 }
 
-/* .nav-links li {
-/*     margin-left: 100px; */
-/* } */ 
+.nav-links li {
+    margin-left: 100px;
+} 
 
 .nav-links a {
     color: white;
