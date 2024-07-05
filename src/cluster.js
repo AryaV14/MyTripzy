@@ -26,7 +26,7 @@ function clusterPlaces(distanceMatrix, numDays, maxDistancePerDay, loca) {
     }
 
     if (currentDay < numDays) {
-      const travelTime = (distance / 50) * 60 * 60 * 1000; // Assume average speed is 50 km/h
+      const travelTime = (distance * 1.25/ 50) * 60 * 60 * 1000; // Assume average speed is 50 km/h
       const arriveTime = new Date(currentTime.getTime() + travelTime);
       
       clusters[currentDay].places.push({
