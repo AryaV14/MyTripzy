@@ -1,11 +1,12 @@
 import Graph from './graph';
 
-// Function to cluster places into days
+// Function to cluster places into days using TSP
 function clusterPlaces(distanceMatrix, numDays, maxDistancePerDay, loca) {
   const graph = new Graph(distanceMatrix);
-  const startNode = 0; // assuming we start from the first place
-  const distances = graph.dijkstra(startNode);
-
+  
+  // Calculate TSP to get the optimal path
+  const { path, cost } = graph.tsp();
+  console.log(path);
   let clusters = Array(numDays).fill().map(() => ({ places: [], totalDistance: 0 }));
 
   let currentDay = 0;
@@ -13,7 +14,11 @@ function clusterPlaces(distanceMatrix, numDays, maxDistancePerDay, loca) {
   let currentTime = new Date();
   currentTime.setHours(9, 0, 0); // Start time at 9:00 AM
 
-  distances.forEach((distance, place) => {
+  // Use the optimal path (path) to iterate over places in the order of visit
+  path.forEach((placeIndex, index) => {
+    const place = loca[placeIndex];
+    const distance = index > 0 ? distanceMatrix[path[index - 1]][placeIndex] : 0; // Distance from previous place
+
     if (currentDistance + distance > maxDistancePerDay) {
       currentDay++;
       currentDistance = 0;
@@ -25,7 +30,7 @@ function clusterPlaces(distanceMatrix, numDays, maxDistancePerDay, loca) {
       const arriveTime = new Date(currentTime.getTime() + travelTime);
       
       clusters[currentDay].places.push({
-        ...loca[place],
+        ...place,
         distance: distance,
         leaveTime: currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         arriveTime: arriveTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })

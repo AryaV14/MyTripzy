@@ -66,11 +66,15 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Travel Itinerary Planner</h1>
+      <div className='logo'><img src="/logooob.png"></img></div>
+      
+    <div className='map_form'>
+      <form onSubmit={handleFormSubmit}>
+      <label>Search places</label>
+
       <div className="places">
         <SearchBox selectPosition={selectPosition} setSelectPosition={setSelectPosition} addPlaceToLoca={addPlaceToLoca} loca={loca}/>
       </div>
-      <form onSubmit={handleFormSubmit}>
         <label htmlFor="numDays">Number of Days:</label>
         <input
           type="number"
@@ -98,6 +102,10 @@ function App() {
 
         <button type="submit">Plan Itinerary</button>
       </form>
+      <div className="maps">
+        <Maps selectPosition={selectPosition} loca={loca}  />
+      </div>
+</div>
 
       {/* <div className="clusters-container">
         {clusters.length > 0 && (
@@ -115,17 +123,6 @@ function App() {
         )}
       </div> */}
 
-<div className="loca-list">
-        <h2>Selected Places</h2>
-        <ul>
-          {loca.map((place, index) => (
-            <li key={index}>
-              {place.name}
-              <button onClick={() => removePlaceFromLoca(index)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
 
 {/* 
 <div className="clusters-container">
@@ -165,10 +162,20 @@ function App() {
         )}
       </div>
 
-      <div className="maps">
-        <Maps selectPosition={selectPosition} loca={loca}  />
+    
+<div className="loca-list">
+        <h2>Selected Places</h2>
+        <ul>
+          {loca.map((place, index) => (
+            <li key={index}>
+              {place.name}
+              <button onClick={() => removePlaceFromLoca(index)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
+    
   );
 }
 
