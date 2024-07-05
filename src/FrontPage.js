@@ -8,7 +8,7 @@ import bgImage from './bg1.avif'; // Adjust the path to your background image
 
 const FrontPage = () => {
     return (
-        <div>
+        <div classname="b">
             <nav className="navbar">
                 <img src={logo} alt="Logo" className="logo" />
                 <ul className="nav-links">
