@@ -122,17 +122,30 @@ function App() {
         )}
       </div>
 
-      <div className="loca-list">
-        <h2>Selected Places</h2>
-        <ul>
-          {loca.map((place, index) => (
-            <li key={index}>
-              {place.name}
-              <button onClick={() => removePlaceFromLoca(index)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+           <div className="loca-list">
+  <h2>Selected Places</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Place Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {loca.map((place, index) => (
+        <tr key={index}>
+          <td>{place.name}</td>
+          <td>
+            <button className="delete-button" onClick={() => removePlaceFromLoca(index)}>
+              <i className="fas fa-trash-alt"></i> Delete
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
     </div>
   );
 }
