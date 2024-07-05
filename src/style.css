@@ -37,6 +37,7 @@
     padding: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    margin-top: 70px;
 }
 
 .logoo {
@@ -99,9 +100,9 @@
 }
 
 .adventure-text {
-    font-size: 4em;
-    margin: 40px 0;
-    line-height: 1.5em;
+    font-size: 5em;
+    margin: 30px 0;
+    line-height: 1.3em;
     font-family: 'Noto Sans KR', sans-serif;
     color: white;
 }
