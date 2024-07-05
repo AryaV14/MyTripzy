@@ -41,8 +41,8 @@
 }
 
 .logoo {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
 }
 
 .navbar {
@@ -50,10 +50,10 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 50px;
+    height: 70px;
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -68,7 +68,7 @@
 }
 
 .nav-links li {
-    margin-left: 20px; /* Reduced margin to avoid overflow */
+    margin-left: 100px; /* Reduced margin to avoid overflow */
 }
 
 .nav-links a {
