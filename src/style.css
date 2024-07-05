@@ -60,7 +60,7 @@
 
 .nav-links {
     list-style: none;
-    display: flex;
+    display: none;
     margin: 0,auto;
     padding: 0;
 }
