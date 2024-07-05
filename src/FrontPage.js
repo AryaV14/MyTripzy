@@ -10,7 +10,7 @@ const FrontPage = () => {
     return (
         <div classname="b">
             <nav className="navbar">
-                <img src={logo} alt="Logo" className="logo" />
+                <img src={logo} alt="Logo" className="logoo" />
                 <ul className="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
