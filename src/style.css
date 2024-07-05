@@ -9,7 +9,7 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    height: 100vh;
+    height: 100%;
 }
 
 .background-image {
@@ -40,12 +40,12 @@
 }
 
 .logoo {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 }
 
 .navbar {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     height: 50px;
