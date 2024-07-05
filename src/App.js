@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import clusterPlaces from './cluster';
 import './App.css';
 import Maps from './Maps';
 import SearchBox from './SearchBox';
 import { haversine } from './haversine';
+import clusterPlaces from './cluster'; 
+ // Import your FrontPage component
 
 const DistanceMatrix = [
   [0, 1, 4, 14, 21, 4, 10, 17],
@@ -23,16 +24,13 @@ const locations = [
   'Wonderla Amusement Park'
 ];
 
-
-
 function App() {
   const [numDays, setNumDays] = useState(4);
   const [maxDistancePerDay, setMaxDistancePerDay] = useState(20);
   const [clusters, setClusters] = useState([]);
-  const [selectPosition,setSelectPosition]= useState(null);
+  const [selectPosition, setSelectPosition] = useState(null);
   const [loca, setLoca] = useState([]);
   console.log(loca);
-  
 
   const handleNumDaysChange = (event) => {
     setNumDays(parseInt(event.target.value));
@@ -52,9 +50,10 @@ function App() {
       loca.map((place2, index2) => index1 === index2 ? 0 : haversine(place1.lat, place1.lon, place2.lat, place2.lon))
     );
     console.log(distanceMatrix);
-    const clustersResult = clusterPlaces(distanceMatrix, numDays, maxDistancePerDay,loca);
+    const clustersResult = clusterPlaces(distanceMatrix, numDays, maxDistancePerDay, loca);
     setClusters(clustersResult);
   };
+
   const addPlaceToLoca = (place) => {
     setLoca([...loca, { name: place.display_name, lat: place.lat, lon: place.lon }]);
   };
@@ -63,87 +62,48 @@ function App() {
     setLoca(loca.filter((_, i) => i !== index));
   };
 
-
   return (
     <div className="App">
       <div className='logo'><img src="/logooob.png"></img></div>
-      
-    <div className='map_form'>
-      <form onSubmit={handleFormSubmit}>
-      <label>Search places</label>
 
-      <div className="places">
-        <SearchBox selectPosition={selectPosition} setSelectPosition={setSelectPosition} addPlaceToLoca={addPlaceToLoca} loca={loca}/>
-      </div>
-        <label htmlFor="numDays">Number of Days:</label>
-        <input
-          type="number"
-          id="numDays"
-          name="numDays"
-          value={numDays}
-          onChange={handleNumDaysChange}
-          min="1"
-          max="7"
-          required
-        />
+      <div className='map_form'>
+        <form onSubmit={handleFormSubmit}>
+          <label>Search places</label>
 
-        <label htmlFor="maxDistancePerDay">Max Distance per Day (km):</label>
-        <input
-          type="number"
-          id="maxDistancePerDay"
-          name="maxDistancePerDay"
-          value={maxDistancePerDay}
-          onChange={handleMaxDistanceChange}
-          min="1"
-          required
-        />
-
-        
-
-        <button type="submit">Plan Itinerary</button>
-      </form>
-      <div className="maps">
-        <Maps selectPosition={selectPosition} loca={loca}  />
-      </div>
-</div>
-
-      {/* <div className="clusters-container">
-        {clusters.length > 0 && (
-          clusters.map((cluster, index) => (
-            <div key={index} className="cluster">
-              <h2>Cluster {index + 1}</h2>
-              <ul>
-                {cluster.map(placeIndex => (
-                  // <li key={placeIndex}>{locations[placeIndex]}</li>
-                  <li key={placeIndex}>{loca[placeIndex].name}</li>
-                ))}
-              </ul>
-            </div>
-          ))
-        )}
-      </div> */}
-
-
-{/* 
-<div className="clusters-container">
-        {clusters.length > 0 && clusters.map((cluster, index) => (
-          <div key={index} className="cluster">
-            <h2>Day {index + 1}</h2>
-            <ul>
-              {cluster.places.map((place, placeIndex) => (
-                <li key={placeIndex}>
-                  <div>{place.name}</div>
-                  <div>Leave: {place.leaveTime}</div>
-                  <div>Arrive: {place.arriveTime}</div>
-                  <div>Distance: {place.distance.toFixed(2)} km</div>
-                </li>
-              ))}
-            </ul>
-            <p>Total Distance: {cluster.totalDistance.toFixed(2)} km</p>
+          <div className="places">
+            <SearchBox selectPosition={selectPosition} setSelectPosition={setSelectPosition} addPlaceToLoca={addPlaceToLoca} loca={loca} />
           </div>
-        ))}
-      </div> */}
-<div className="clusters-container">
+          <label htmlFor="numDays">Number of Days:</label>
+          <input
+            type="number"
+            id="numDays"
+            name="numDays"
+            value={numDays}
+            onChange={handleNumDaysChange}
+            min="1"
+            max="7"
+            required
+          />
+
+          <label htmlFor="maxDistancePerDay">Max Distance per Day (km):</label>
+          <input
+            type="number"
+            id="maxDistancePerDay"
+            name="maxDistancePerDay"
+            value={maxDistancePerDay}
+            onChange={handleMaxDistanceChange}
+            min="1"
+            required
+          />
+
+          <button type="submit">Plan Itinerary</button>
+        </form>
+        <div className="maps">
+          <Maps selectPosition={selectPosition} loca={loca} />
+        </div>
+      </div>
+
+      <div className="clusters-container">
         {clusters.length > 0 && (
           clusters.map((cluster, index) => (
             <div key={index} className="cluster">
@@ -162,8 +122,7 @@ function App() {
         )}
       </div>
 
-    
-<div className="loca-list">
+      <div className="loca-list">
         <h2>Selected Places</h2>
         <ul>
           {loca.map((place, index) => (
@@ -175,7 +134,6 @@ function App() {
         </ul>
       </div>
     </div>
-    
   );
 }
 
